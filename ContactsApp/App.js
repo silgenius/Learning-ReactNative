@@ -7,6 +7,7 @@ import Row from './components/row'
 export default class App extends React.Component {
   state = {
     showContacts: false,
+    contacts,
   }
 
   updateContactVisibility = () => {
@@ -14,6 +15,17 @@ export default class App extends React.Component {
       ...prevState, showContacts: !prevState.showContacts
     }))
   }
+
+  sortContact = () =>  {
+    this.setState(prevState => ({
+      ...prevState, contacts: [...prevState.contacts.sort(compareContacts)]
+    }))
+  }
+
+  renderItem = ({ item }) => {
+    return <Row {...item} />;
+  }
+
 
   render() {
     return (
@@ -30,12 +42,13 @@ export default class App extends React.Component {
           <View style={{ marginLeft: 30, marginBottom: 10 }}>
             <Button
               title="Sort Contacts"
+              onPress={this.sortContact}
             />
           </View>
         </View>
         <FlatList
-          data={this.state.showContacts && contacts}
-          renderItem={({ item }) => <Row { ...item } /> }
+          data={this.state.showContacts && this.state.contacts}
+          renderItem={ obj => this.renderItem(obj) }
           keyExtractor={item => item.key}
         />
       </View>
