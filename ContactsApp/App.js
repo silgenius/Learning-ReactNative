@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View,  Button, FlatList, } from 'react-native';
 
 import contacts, { compareContacts } from './contacts';
-import Row from './components/row'
+import DisplayContact from './components/DisplayContact';
 
 export default class App extends React.Component {
   state = {
     showContacts: false,
-    contacts,
+    contacts: contacts.sort(compareContacts),
   }
 
   updateContactVisibility = () => {
@@ -21,11 +21,6 @@ export default class App extends React.Component {
       ...prevState, contacts: [...prevState.contacts.sort(compareContacts)]
     }))
   }
-
-  renderItem = ({ item }) => {
-    return <Row {...item} />;
-  }
-
 
   render() {
     return (
@@ -46,11 +41,9 @@ export default class App extends React.Component {
             />
           </View>
         </View>
-        <FlatList
-          data={this.state.showContacts && this.state.contacts}
-          renderItem={ obj => this.renderItem(obj) }
-          keyExtractor={item => item.key}
-        />
+        {
+          this.state.showContacts && <DisplayContact contacts={this.state.contacts} />
+        }
       </View>
     );
   }
