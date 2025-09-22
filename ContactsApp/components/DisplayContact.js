@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList,  SectionList, View, StyleSheet, Text } from 'react-native';
+import { SectionList, View, StyleSheet, Text } from 'react-native';
 
 import Row from './ContactRow';
 
@@ -39,7 +39,7 @@ export default class DisplayContact extends React.Component {
         sections={this.section}
         renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
         renderItem={ obj => this.renderItem(obj) }
-        keyExtractor={item => item.key}
+        keyExtractor={(_, idx) => idx}
         stickySectionHeadersEnabled={true}
       />
     )

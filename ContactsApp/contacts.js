@@ -1,4 +1,4 @@
-let MAX_CONTACTS = 1000;
+let MAX_CONTACTS = 3;
 
 // List of Yoruba First Names
 const firstNames = [
@@ -31,8 +31,5 @@ const createContact = () => ({
 
 export const compareContacts = (contact1, contact2) => contact1.firstName.localeCompare(contact2.firstName);
 
-const contacts = Array.from({ length: MAX_CONTACTS}, createContact).map((val, key) => (
-  { key, ...val }
-))
-
+const contacts = Array.from({ length: MAX_CONTACTS}, createContact)
 export default contacts;
