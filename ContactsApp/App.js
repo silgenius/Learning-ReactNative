@@ -1,28 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, View,  Button, FlatList, } from 'react-native';
+import { StyleSheet, Text, View,  Button } from 'react-native';
 
 import contacts, { compareContacts } from './contacts';
 import DisplayContact from './components/DisplayContact';
+import CreateContact from './components/ContactForm';
 
 export default class App extends React.Component {
   state = {
     showContacts: false,
     contacts: contacts.sort(compareContacts),
+    showContactForm: false,
   }
 
-  updateContactVisibility = () => {
+  toggleContactVisibility = () => {
     this.setState(prevState => ({
       ...prevState, showContacts: !prevState.showContacts
     }))
   }
 
-  sortContact = () =>  {
+  addContact = (contacts) =>  {
     this.setState(prevState => ({
-      ...prevState, contacts: [...prevState.contacts.sort(compareContacts)]
+      ...prevState, contacts: [...prevState.contacts, contacts], showContactForm: !prevState.showContactForm
+    }))
+  }
+
+  toggleContactForm = () => {
+    this.setState(prevState => ({
+      showContactForm: !prevState.showContactForm
     }))
   }
 
   render() {
+    if (this.state.showContactForm) return <CreateContact onSubmit={this.addContact}/>
     return (
       <View style={styles.container}>
         <Text style={styles.paragraph}> Contacts </Text>
@@ -31,13 +40,13 @@ export default class App extends React.Component {
             <Button
               style={styles.visibilityButton}
               title={this.state.showContacts ? 'Hide Contacts' : 'Show Contacts'}
-              onPress={this.updateContactVisibility}
+              onPress={this.toggleContactVisibility}
             />
           </View>
           <View style={{ marginLeft: 30, marginBottom: 10 }}>
             <Button
-              title="Sort Contacts"
-              onPress={this.sortContact}
+              title="Add Contact"
+              onPress={this.toggleContactForm}
             />
           </View>
         </View>
