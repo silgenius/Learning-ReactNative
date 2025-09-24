@@ -4,8 +4,12 @@ import { Card } from 'react-native-paper';
 
 const Row = (props) => (
   <Card style={styles.row}>
-    <Text style={[styles.name, styles.contact]}>{`${props.firstName} ${props.lastName || "" }`}</Text>
-    <Text style={styles.contact}>{`${props.phoneNumber}`}</Text>
+    <Text style={[styles.name, styles.contact]}>
+      {`${props.firstName} ${props.lastName || "" }`}
+    </Text>
+    <Text style={styles.contact}>
+      {`${props.phoneNumber}`}
+    </Text>
   </Card>
 )
 

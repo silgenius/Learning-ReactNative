@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextInput, View, StyleSheet } from 'react-native';
 
-function CreateContact(props) {
+import { useNavigation} from '@react-navigation/native';
+
+function CreateContact({ route }) {
+  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('')
   const [isFormValid, validateForm] = useState(false);
 
-  const phoneIsValid = (value) => (+value >= 0) && (value[value.length - 1] !=  '.') && value.length <= 10;
+  const phoneIsValid = (value) => (+value >= 0) && (value[value.length - 1] !=  '.') && value.length <= 11;
 
   useEffect(() => {
-    if (phoneIsValid(phone) && phone !== "" && name.length >= 3) validateForm(true);
+    if (phoneIsValid(phone) && phone !== "" && phone.length === 11 && name.length >= 3) validateForm(true);
     else validateForm(false)
   }, [phone, name])
 
@@ -19,12 +22,14 @@ function CreateContact(props) {
 
   const toggleSubmit = () => {
     const [firstName, lastName] = name.split(' ', 2)
-    props.onSubmit({ firstName, lastName, phoneNumber: phone })
+    const { contacts } = route.params
+    navigation.navigate('Contacts', {
+      newContacts: [...contacts, { firstName, lastName, phoneNumber: phone }]
+    })
   }
 
   return (
     <View style={styles.container}>
-        <Text style={styles.paragraph}>Add Contact</Text>
         <TextInput
             value={name}
             onChangeText={setName}
@@ -51,12 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ecf0f1',
     padding: 8,
-  },
-  paragraph: {
-    margin: 5,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
   input: {
     height: 50,

@@ -40,7 +40,7 @@ export default class DisplayContact extends React.Component {
         renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
         renderItem={ obj => this.renderItem(obj) }
         keyExtractor={(_, idx) => idx}
-        stickySectionHeadersEnabled={true}
+        stickySectionHeadersEnabled
       />
     )
   }
