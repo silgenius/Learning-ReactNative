@@ -1,16 +1,19 @@
 import React from 'react';
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-paper';
 
 const Row = (props) => (
-  <Card style={styles.row}>
+  <TouchableOpacity
+    style={styles.row}
+    onPress={() => props.navigation()}
+  >
     <Text style={[styles.name, styles.contact]}>
       {`${props.firstName} ${props.lastName || "" }`}
     </Text>
     <Text style={styles.contact}>
       {`${props.phoneNumber}`}
     </Text>
-  </Card>
+  </TouchableOpacity >
 )
 
 const styles = StyleSheet.create({
@@ -19,7 +22,7 @@ const styles = StyleSheet.create({
   },
   contact: {
     marginTop: 5,
-    marginLeft: 10,
+    marginLeft: 50,
     fontSize: 15,
   },
   name: {

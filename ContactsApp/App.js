@@ -6,6 +6,7 @@ import {
 
 import ContactList from './screens/ContactList';
 import ContactForm from './screens/ContactForm';
+import ContactDetails from './screens/ContactDetails';
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Contacts',
@@ -22,6 +23,12 @@ const RootStack = createNativeStackNavigator({
         title: 'Add New Contact'
       }
     },
+    ContactDetails: {
+      screen: ContactDetails,
+      options: ({ route }) => ({
+        title: `${route.params.contact.firstName} ${route.params.contact.firstName}`
+      })
+    }
   }
 })
 

@@ -3,7 +3,7 @@ import { SectionList, View, StyleSheet, Text } from 'react-native';
 
 import Row from './ContactRow';
 
-export default function DisplayContact ({ contacts }) {
+export default function DisplayContact ({ contacts, navigation }) {
   const section = useMemo(() => {
     const data = contacts.reduce((acc, curr) => {
       const key = curr.firstName[0].toUpperCase();
@@ -16,7 +16,10 @@ export default function DisplayContact ({ contacts }) {
   }, [contacts])
 
   const renderItem = ({ item }) => {
-    return <Row { ...item } />;
+    console.log(item)
+    return <Row navigation={() => navigation.navigate('ContactDetails', {
+      contact: { ...item }
+    })} { ...item } />;
   }
 
   const renderSectionHeader = ({ title }) => {

@@ -1,74 +1,85 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { Button } from '@react-navigation/elements';
-import { useNavigation} from '@react-navigation/native';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import DisplayContact from '../components/DisplayContact';
 import contacts from '../utils/contacts';
 
-export default function ContactList ({ route }) {
+export default function ContactList({ route }) {
   const navigation = useNavigation();
-  const [showContacts, updateContactVisibility] = useState(true);
-  const [contactList, updateContacts] = useState([...contacts]);
+  const [showContacts, setShowContacts] = useState(true);
+  const [contactList, setContactList] = useState([...contacts]);
 
   useEffect(() => {
     if (route.params?.newContact) {
-      const newContact = route.params.newContact;
-      createNewContact(newContact);
+      addNewContact(route.params.newContact);
     }
-  }, [route.params?.newContact])
-  
-  const createNewContact = (newContact) => {
-    updateContacts(prevState => [ ...prevState, newContact])
-  }
+  }, [route.params?.newContact]);
+
+  const addNewContact = (newContact) => {
+    setContactList(prevContacts => [...prevContacts, newContact]);
+  };
 
   const toggleContactVisibility = () => {
-    updateContactVisibility(prevState => !prevState)
-  }
+    setShowContacts(prev => !prev);
+  };
 
-  const toggleContactForm = () => {
-    navigation.navigate('NewContact')
-  }
+  const navigateToNewContact = () => {
+    navigation.navigate('NewContact');
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonView}>
-        <View style={{ marginLeft: 30, marginBottom: 10 }}>
-          <Button 
-            onPress={toggleContactVisibility}
-            style={styles.Button}
-          >
+      <View style={styles.buttonRow}>
+        <TouchableOpacity onPress={toggleContactVisibility} style={styles.button}>
+          <Text style={styles.buttonText}>
             {showContacts ? 'Hide Contacts' : 'Show Contacts'}
-          </Button>
-        </View>
-        <View style={{ marginLeft: 30, marginBottom: 10 }}>
-          <Button
-            onPress={toggleContactForm}
-            style={styles.Button}
-          >
-            Add Contacts
-          </Button>
-        </View>
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={navigateToNewContact} style={styles.button}>
+          <Text style={styles.buttonText}>Add Contact</Text>
+        </TouchableOpacity>
       </View>
-      {
-        showContacts && <DisplayContact contacts={contactList} />
-      }
+
+      {showContacts && (
+        <View style={styles.contactsWrapper}>
+          <DisplayContact contacts={contactList} navigation={navigation} />
+        </View>
+      )}
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ecf0f1',
-    padding: 8,
+    paddingHorizontal: 20,
+    paddingTop: 40,
   },
-  Button: {
-    marginBottom: 5,
-    borderRadius: 10,
-  },
-  buttonView: {
+  buttonRow: {
     flexDirection: 'row',
-  }
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#1f1f1f',
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 10,
+    borderColor: '#333',
+    borderWidth: 1,
+    flex: 1,
+    marginHorizontal: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  contactsWrapper: {
+    flex: 1,
+  },
 });
