@@ -1,31 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { SectionList, View, StyleSheet, Text } from 'react-native';
 
 import Row from './ContactRow';
 
-export default class DisplayContact extends React.Component {
-  constructor(props) {
-    super(props);
-    this.data = this.formatContactSections(this.props.contacts)
-    this.section = Object.keys(this.data).sort().map(key => ({
-      title: key, data: [ ...(this.data[key]) ]
-    }))
-  }
-
-  formatContactSections (props) {
-    const data = props.reduce((acc, curr) => {
+export default function DisplayContact ({ contacts }) {
+  const section = useMemo(() => {
+    const data = contacts.reduce((acc, curr) => {
       const key = curr.firstName[0].toUpperCase();
-      acc[key] = [ ...acc[key] || [] , curr ];
-      return acc
+      acc[key] = [ ...acc[key] || [] , curr ]
+      return acc;
     }, {})
-    return data
-  }
+    return Object.keys(data).sort().map(key => ({
+      title: key, data: data[key]
+    }))
+  }, [contacts])
 
-  renderItem = ({ item }) => {
+  const renderItem = ({ item }) => {
     return <Row { ...item } />;
   }
 
-  renderSectionHeader = ({ title }) => {
+  const renderSectionHeader = ({ title }) => {
     return (
       <View style={styles.sectionHeader}>
         <Text> {title} </Text>
@@ -33,17 +27,15 @@ export default class DisplayContact extends React.Component {
     )
   }
   
-  render() {
-    return (
-      <SectionList
-        sections={this.section}
-        renderSectionHeader={({ section }) => this.renderSectionHeader(section)}
-        renderItem={ obj => this.renderItem(obj) }
-        keyExtractor={(_, idx) => idx}
-        stickySectionHeadersEnabled
-      />
-    )
-  }
+  return (
+    <SectionList
+      sections={section}
+      renderSectionHeader={({ section }) => renderSectionHeader(section)}
+      renderItem={ obj => renderItem(obj) }
+      keyExtractor={(_, idx) => idx}
+      stickySectionHeadersEnabled
+    />
+  )
 }
 
 const styles = StyleSheet.create({

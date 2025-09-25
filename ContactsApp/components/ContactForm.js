@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Text, Button, TextInput, View, StyleSheet } from 'react-native';
+import { Button, TextInput, View, StyleSheet } from 'react-native';
 
 import { useNavigation} from '@react-navigation/native';
 
-function CreateContact({ route }) {
+function CreateContact() {
   const navigation = useNavigation();
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('')
@@ -22,9 +22,8 @@ function CreateContact({ route }) {
 
   const toggleSubmit = () => {
     const [firstName, lastName] = name.split(' ', 2)
-    const { contacts } = route.params
-    navigation.navigate('Contacts', {
-      newContacts: [...contacts, { firstName, lastName, phoneNumber: phone }]
+    navigation.popTo('Contacts', {
+      newContact: { firstName, lastName, phoneNumber: phone }
     })
   }
 
@@ -39,6 +38,7 @@ function CreateContact({ route }) {
         <TextInput
           value={phone}
           onChangeText={handlePhoneChange}
+          keyboardType="numeric"
           placeholder='Phone'
           style={styles.input}
         />

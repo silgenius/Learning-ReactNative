@@ -6,7 +6,6 @@ import {
 
 import ContactList from './components/ContactList';
 import ContactForm from './components/ContactForm';
-import contacts from './utils/contacts';
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Contacts',
@@ -16,7 +15,6 @@ const RootStack = createNativeStackNavigator({
       options: {
         title: 'All Contacts'
       },
-      initialParams: { newContacts: contacts }
     },
     NewContact: {
       screen: ContactForm,
