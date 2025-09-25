@@ -4,8 +4,8 @@ import {
   createNativeStackNavigator
 } from '@react-navigation/native-stack';
 
-import ContactList from './components/ContactList';
-import ContactForm from './components/ContactForm';
+import ContactList from './screens/ContactList';
+import ContactForm from './screens/ContactForm';
 
 const RootStack = createNativeStackNavigator({
   initialRouteName: 'Contacts',

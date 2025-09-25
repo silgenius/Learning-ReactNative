@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import { Button } from '@react-navigation/elements';
 import { useNavigation} from '@react-navigation/native';
 
-import DisplayContact from './DisplayContact';
+import DisplayContact from '../components/DisplayContact';
 import contacts from '../utils/contacts';
 
 export default function ContactList ({ route }) {
