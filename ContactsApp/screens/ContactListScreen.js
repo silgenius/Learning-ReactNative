@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import DisplayContact from '../components/DisplayContact';
 import contacts from '../utils/contacts';
 
-export default function ContactList({ route }) {
+export default function ContactListScreen({ route }) {
   const navigation = useNavigation();
   const [showContacts, setShowContacts] = useState(true);
   const [contactList, setContactList] = useState([...contacts]);
@@ -24,10 +24,6 @@ export default function ContactList({ route }) {
     setShowContacts(prev => !prev);
   };
 
-  const navigateToNewContact = () => {
-    navigation.navigate('NewContact');
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.buttonRow}>
@@ -35,10 +31,6 @@ export default function ContactList({ route }) {
           <Text style={styles.buttonText}>
             {showContacts ? 'Hide Contacts' : 'Show Contacts'}
           </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={navigateToNewContact} style={styles.button}>
-          <Text style={styles.buttonText}>Add Contact</Text>
         </TouchableOpacity>
       </View>
 
