@@ -3,7 +3,7 @@ import { SectionList, View, StyleSheet, Text } from 'react-native';
 
 import Row from './ContactRow';
 
-export default function DisplayContact ({ contacts, navigation }) {
+export default function DisplayContactScreen({ contacts, navigation }) {
   const section = useMemo(() => {
     const data = contacts.reduce((acc, curr) => {
       const key = curr.firstName[0].toUpperCase();
